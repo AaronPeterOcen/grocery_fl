@@ -51,8 +51,8 @@ class _SearchScreenState extends State<SearchScreen> {
               child: _query.isEmpty
                   ? _buildEmptyState()
                   : results.isEmpty
-                      ? _buildNoResults()
-                      : _buildResultsList(results),
+                  ? _buildNoResults()
+                  : _buildResultsList(results),
             ),
           ],
         ),
@@ -82,7 +82,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       _controller.clear();
                       setState(() => _query = '');
                     },
-                    child: const Icon(Icons.close, color: Color(0xFFB2BEC3), size: 18),
+                    child: const Icon(
+                      Icons.close,
+                      color: Color(0xFFB2BEC3),
+                      size: 18,
+                    ),
                   )
                 : null,
             border: InputBorder.none,
@@ -99,13 +103,15 @@ class _SearchScreenState extends State<SearchScreen> {
       children: [
         const SizedBox(height: 24),
         _buildSectionLabel('Recent Searches'),
-        ...['Egg', 'Apple', 'Juice'].map((s) => _RecentSearchTile(
-              query: s,
-              onTap: () {
-                _controller.text = s;
-                setState(() => _query = s);
-              },
-            )),
+        ...['Egg', 'Apple', 'Juice'].map(
+          (s) => _RecentSearchTile(
+            query: s,
+            onTap: () {
+              _controller.text = s;
+              setState(() => _query = s);
+            },
+          ),
+        ),
         const SizedBox(height: 24),
         _buildSectionLabel('Popular'),
         Expanded(
@@ -117,15 +123,18 @@ class _SearchScreenState extends State<SearchScreen> {
             childAspectRatio: 2.5,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            children: ['Fruits', 'Vegetables', 'Dairy', 'Beverages', 'Snacks', 'Meat']
-                .map((t) => _PopularChip(
-                      label: t,
-                      onTap: () {
-                        _controller.text = t;
-                        setState(() => _query = t);
-                      },
-                    ))
-                .toList(),
+            children:
+                ['Fruits', 'Vegetables', 'Dairy', 'Beverages', 'Snacks', 'Meat']
+                    .map(
+                      (t) => _PopularChip(
+                        label: t,
+                        onTap: () {
+                          _controller.text = t;
+                          setState(() => _query = t);
+                        },
+                      ),
+                    )
+                    .toList(),
           ),
         ),
       ],
@@ -137,9 +146,14 @@ class _SearchScreenState extends State<SearchScreen> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(label,
-            style: const TextStyle(
-                fontSize: 15, fontWeight: FontWeight.bold, color: kDarkText)),
+        child: Text(
+          label,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: kDarkText,
+          ),
+        ),
       ),
     );
   }
@@ -151,11 +165,19 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           const Text('🔍', style: TextStyle(fontSize: 60)),
           const SizedBox(height: 16),
-          Text('No results for "$_query"',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: kDarkText)),
+          Text(
+            'No results for "$_query"',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: kDarkText,
+            ),
+          ),
           const SizedBox(height: 6),
-          const Text('Try a different search term',
-              style: TextStyle(fontSize: 14, color: kGrey)),
+          const Text(
+            'Try a different search term',
+            style: TextStyle(fontSize: 14, color: kGrey),
+          ),
         ],
       ),
     );
@@ -165,7 +187,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       itemCount: results.length,
-      separatorBuilder: (_, __) => Divider(color: Colors.grey.shade100),
+      separatorBuilder: (_, _) => Divider(color: Colors.grey.shade100),
       itemBuilder: (_, i) => _SearchResultTile(product: results[i]),
     );
   }
@@ -204,7 +226,10 @@ class _SearchResultTileState extends State<_SearchResultTile> {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
-              child: Text(widget.product.emoji, style: const TextStyle(fontSize: 36)),
+              child: Text(
+                widget.product.emoji,
+                style: const TextStyle(fontSize: 36),
+              ),
             ),
           ),
           const SizedBox(width: 12),
@@ -212,15 +237,27 @@ class _SearchResultTileState extends State<_SearchResultTile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.product.name,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 15, color: kDarkText)),
-                Text('${widget.product.subtitle}, Price',
-                    style: const TextStyle(fontSize: 13, color: kGrey)),
+                Text(
+                  widget.product.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: kDarkText,
+                  ),
+                ),
+                Text(
+                  '${widget.product.subtitle}, Price',
+                  style: const TextStyle(fontSize: 13, color: kGrey),
+                ),
                 const SizedBox(height: 4),
-                Text(widget.product.price,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.bold, color: kDarkText)),
+                Text(
+                  widget.product.price,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: kDarkText,
+                  ),
+                ),
               ],
             ),
           ),
@@ -239,12 +276,22 @@ class _SearchResultTileState extends State<_SearchResultTile> {
                 )
               : Row(
                   children: [
-                    _SmBtn(icon: Icons.remove, onTap: () => setState(() => _qty = (_qty - 1).clamp(0, 99))),
+                    _SmBtn(
+                      icon: Icons.remove,
+                      onTap: () =>
+                          setState(() => _qty = (_qty - 1).clamp(0, 99)),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6),
-                      child: Text('$_qty', style: const TextStyle(fontWeight: FontWeight.bold)),
+                      child: Text(
+                        '$_qty',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    _SmBtn(icon: Icons.add, onTap: () => setState(() => _qty++)),
+                    _SmBtn(
+                      icon: Icons.add,
+                      onTap: () => setState(() => _qty++),
+                    ),
                   ],
                 ),
         ],
@@ -270,7 +317,11 @@ class _SmBtn extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           border: icon == Icons.add ? null : Border.all(color: kGreen),
         ),
-        child: Icon(icon, size: 14, color: icon == Icons.add ? Colors.white : kGreen),
+        child: Icon(
+          icon,
+          size: 14,
+          color: icon == Icons.add ? Colors.white : kGreen,
+        ),
       ),
     );
   }
@@ -285,7 +336,10 @@ class _RecentSearchTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.history, color: kGrey, size: 20),
-      title: Text(query, style: const TextStyle(fontSize: 15, color: kDarkText)),
+      title: Text(
+        query,
+        style: const TextStyle(fontSize: 15, color: kDarkText),
+      ),
       trailing: const Icon(Icons.north_west, color: kGrey, size: 16),
       onTap: onTap,
       dense: true,
@@ -309,9 +363,14 @@ class _PopularChip extends StatelessWidget {
           border: Border.all(color: const Color(0xFFB2DFDB)),
         ),
         alignment: Alignment.center,
-        child: Text(label,
-            style: const TextStyle(
-                color: kGreen, fontWeight: FontWeight.w600, fontSize: 14)),
+        child: Text(
+          label,
+          style: const TextStyle(
+            color: kGreen,
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
+          ),
+        ),
       ),
     );
   }
