@@ -1300,34 +1300,181 @@ class FavouritesScreen extends StatelessWidget {
 // ═══════════════════════════════════════════════════════════════════════════════
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
+
+  static const _menuItems = [
+    _AItem(Icons.shopping_bag_outlined, 'Orders'),
+    _AItem(Icons.person_outline, 'My Details'),
+    _AItem(Icons.location_on_outlined, 'Delivery Address'),
+    _AItem(Icons.credit_card_outlined, 'Payment Methods'),
+    _AItem(Icons.local_offer_outlined, 'Promo Card'),
+    _AItem(Icons.notifications_outlined, 'Notifecations'),
+    _AItem(Icons.help_outline, 'Help'),
+    _AItem(Icons.info_outline, 'About'),
+  ];
+
   @override
   Widget build(BuildContext context) => Scaffold(
     backgroundColor: Colors.white,
-    body: const SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('👤', style: TextStyle(fontSize: 64)),
-            SizedBox(height: 16),
-            Text(
-              'Account',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: kDarkText,
+    body: SafeArea(
+      child: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Profile header
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              colors: [Color(0xFFFF9A9E), Color(0xFFFECFEF)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text('👤', style: TextStyle(fontSize: 28)),
+                          ),
+                        ),
+                        const SizedBox(width: 14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  const Text(
+                                    'Afsar Hossen',
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: kDarkText,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Container(
+                                    width: 22,
+                                    height: 22,
+                                    decoration: BoxDecoration(
+                                      color: kGreen.withOpacity(0.12),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.edit,
+                                      size: 12,
+                                      color: kGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 3),
+                              const Text(
+                                'mshuv097@gmail.com',
+                                style: TextStyle(fontSize: 13, color: kGrey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // Menu
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _menuItems.length,
+                    separatorBuilder: (_, __) => Divider(
+                      color: Colors.grey.shade100,
+                      height: 1,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    itemBuilder: (_, i) => InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              _menuItems[i].icon,
+                              color: kDarkText,
+                              size: 22,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Text(
+                                _menuItems[i].label,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  color: kDarkText,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 14,
+                              color: kGrey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 6),
-            Text(
-              'Manage your profile',
-              style: TextStyle(fontSize: 14, color: kGrey),
+          ),
+          // Log Out
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            child: GestureDetector(
+              onTap: () {},
+              child: Container(
+                height: 54,
+                decoration: BoxDecoration(
+                  color: kLightGrey,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(Icons.logout, color: kGreen, size: 20),
+                    SizedBox(width: 10),
+                    Text(
+                      'Log Out',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: kDarkText,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     ),
   );
+}
+
+class _AItem {
+  final IconData icon;
+  final String label;
+  const _AItem(this.icon, this.label);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
