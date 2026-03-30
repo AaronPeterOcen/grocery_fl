@@ -123,6 +123,13 @@ class _HomeBodyState extends State<HomeBody> {
     _P('Ginger Root', '200g', r'$1.99', '🫚'),
     _P('Broccoli', '1 head', r'$2.49', '🥦'),
   ];
+  final _groceries = const [
+    _P('Beef Bone', '1kg', r'$4.99', '🍖'),
+    _P('Broiler Chicken', '1kg', r'$4.99', '🍗'),
+    _P('Red Lentils', '500g', r'$3.49', '🫘'),
+    _P('Basmati Rice', '2kg', r'$8.99', '🍚'),
+  ];
+
   final _banners = const [
     {'t': 'Fresh Vegetables', 's': 'Get Up To 40% OFF', 'e': '🥦'},
     {'t': 'Tropical Fruits', 's': 'New Arrivals Daily', 'e': '🍍'},
@@ -147,6 +154,8 @@ class _HomeBodyState extends State<HomeBody> {
           SliverToBoxAdapter(child: _row(_offers, context)),
           SliverToBoxAdapter(child: _sec('Best Selling')),
           SliverToBoxAdapter(child: _row(_best, context)),
+          SliverToBoxAdapter(child: _sec('Groceries')),
+          SliverToBoxAdapter(child: _row(_groceries, context)),
           const SliverToBoxAdapter(child: SizedBox(height: 20)),
         ],
       ),
