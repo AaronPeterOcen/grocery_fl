@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'filter_sheet.dart';
+import 'widgets/product_card.dart';
+
 void main() => runApp(const GroceryApp());
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -174,7 +177,7 @@ class _HomeBodyState extends State<HomeBody> {
             Icon(Icons.location_on, color: kGreen, size: 18),
             SizedBox(width: 4),
             Text(
-              'Dhaka, Banassre',
+              'Kampala, Uganda',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -323,7 +326,12 @@ class _HomeBodyState extends State<HomeBody> {
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       itemCount: ps.length,
-      itemBuilder: (_, i) => _HomeCard(p: ps[i]),
+      itemBuilder: (_, i) => ProductCard(
+        name: ps[i].name,
+        subtitle: ps[i].sub,
+        price: ps[i].price,
+        emoji: ps[i].emoji,
+      ),
     ),
   );
 }
@@ -738,175 +746,6 @@ class _SearchScreenState extends State<SearchScreen> {
     ),
     itemCount: res.length,
     itemBuilder: (_, i) => _GridCard(p: res[i]),
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// FILTER SHEET
-// ═══════════════════════════════════════════════════════════════════════════════
-void showFilterSheet(BuildContext context) => showModalBottomSheet(
-  context: context,
-  isScrollControlled: true,
-  backgroundColor: Colors.transparent,
-  builder: (_) => const _FilterSheet(),
-);
-
-class _FilterSheet extends StatefulWidget {
-  const _FilterSheet();
-  @override
-  State<_FilterSheet> createState() => _FilterSheetState();
-}
-
-class _FilterSheetState extends State<_FilterSheet> {
-  final _cats = <String, bool>{
-    'Eggs': true,
-    'Noodles & Pasta': false,
-    'Chips & Crisps': false,
-    'Fast Food': false,
-  };
-  final _brands = <String, bool>{
-    'Individual Collection': false,
-    'Cocola': true,
-    'Ifad': false,
-    'Kazi Farmas': false,
-  };
-
-  @override
-  Widget build(BuildContext context) => DraggableScrollableSheet(
-    initialChildSize: 0.82,
-    minChildSize: 0.5,
-    maxChildSize: 0.95,
-    builder: (_, ctrl) => Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 12, bottom: 4),
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: const Icon(Icons.close, color: kDarkText),
-                ),
-                const Expanded(
-                  child: Center(
-                    child: Text(
-                      'Filters',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: kDarkText,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 24),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              controller: ctrl,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: [
-                _section('Categories', _cats),
-                const SizedBox(height: 20),
-                _section('Brand', _brands),
-                const SizedBox(height: 30),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 28),
-            child: SizedBox(
-              width: double.infinity,
-              height: 54,
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kGreen,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-                child: const Text(
-                  'Apply Filter',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-
-  Widget _section(String title, Map<String, bool> map) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        title,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: kDarkText,
-        ),
-      ),
-      const SizedBox(height: 12),
-      ...map.keys.map(
-        (k) => GestureDetector(
-          onTap: () => setState(() => map[k] = !map[k]!),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 22,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    color: map[k]! ? kGreen : Colors.transparent,
-                    border: Border.all(
-                      color: map[k]! ? kGreen : Colors.grey.shade400,
-                      width: 1.5,
-                    ),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: map[k]!
-                      ? const Icon(Icons.check, size: 14, color: Colors.white)
-                      : null,
-                ),
-                const SizedBox(width: 12),
-                Text(
-                  k,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: map[k]! ? kGreen : kDarkText,
-                    fontWeight: map[k]! ? FontWeight.w600 : FontWeight.normal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    ],
   );
 }
 
@@ -1831,48 +1670,6 @@ class _C {
   const _C(this.name, this.emoji, this.bg);
 }
 
-class _AddBtn extends StatelessWidget {
-  final VoidCallback onTap;
-  const _AddBtn({required this.onTap});
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: onTap,
-    child: Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        color: kGreen,
-        borderRadius: BorderRadius.circular(9),
-      ),
-      child: const Icon(Icons.add, color: Colors.white, size: 18),
-    ),
-  );
-}
-
-class _InlineQty extends StatelessWidget {
-  final int qty;
-  final VoidCallback onInc, onDec;
-  const _InlineQty({
-    required this.qty,
-    required this.onInc,
-    required this.onDec,
-  });
-  @override
-  Widget build(BuildContext context) => Row(
-    children: [
-      _SBtn(Icons.remove, false, onDec),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Text(
-          '$qty',
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
-        ),
-      ),
-      _SBtn(Icons.add, true, onInc),
-    ],
-  );
-}
-
 class _SBtn extends StatelessWidget {
   final IconData icon;
   final bool filled;
@@ -1963,97 +1760,11 @@ class _GridCardState extends State<_GridCard> {
                 ),
               ),
               _qty == 0
-                  ? _AddBtn(onTap: () => setState(() => _qty++))
-                  : _InlineQty(
+                  ? AddButton(onTap: () => setState(() => _qty++))
+                  : QtyControl(
                       qty: _qty,
-                      onInc: () => setState(() => _qty++),
-                      onDec: () =>
-                          setState(() => _qty = (_qty - 1).clamp(0, 99)),
-                    ),
-            ],
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-// Home horizontal card
-class _HomeCard extends StatefulWidget {
-  final _P p;
-  const _HomeCard({required this.p});
-  @override
-  State<_HomeCard> createState() => _HomeCardState();
-}
-
-class _HomeCardState extends State<_HomeCard> {
-  int _qty = 0;
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: () => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ProductDetailScreen(
-          name: widget.p.name,
-          subtitle: '${widget.p.sub}, Price',
-          price: widget.p.price,
-          emoji: widget.p.emoji,
-        ),
-      ),
-    ),
-    child: Container(
-      width: 155,
-      margin: const EdgeInsets.only(right: 14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFEEEEEE)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Text(widget.p.emoji, style: const TextStyle(fontSize: 52)),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            widget.p.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: kDarkText,
-            ),
-          ),
-          Text(
-            widget.p.sub,
-            style: const TextStyle(fontSize: 12, color: kGrey),
-          ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.p.price,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: kDarkText,
-                ),
-              ),
-              _qty == 0
-                  ? _AddBtn(onTap: () => setState(() => _qty++))
-                  : _InlineQty(
-                      qty: _qty,
-                      onInc: () => setState(() => _qty++),
-                      onDec: () =>
+                      onIncrement: () => setState(() => _qty++),
+                      onDecrement: () =>
                           setState(() => _qty = (_qty - 1).clamp(0, 99)),
                     ),
             ],
