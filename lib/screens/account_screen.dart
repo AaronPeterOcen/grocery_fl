@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'auth_flow.dart';
+
 const Color kGreen = Color(0xFF2ECC71);
 const Color kDarkText = Color(0xFF2D3436);
 const Color kGrey = Color(0xFF636E72);
@@ -38,7 +40,7 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
             ),
-            _buildLogOut(),
+            _buildLogOut(context),
           ],
         ),
       ),
@@ -110,17 +112,26 @@ class AccountScreen extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: _menuItems.length,
-      separatorBuilder: (_, __) =>
-          Divider(color: Colors.grey.shade100, height: 1, indent: 20, endIndent: 20),
+      separatorBuilder: (_, __) => Divider(
+        color: Colors.grey.shade100,
+        height: 1,
+        indent: 20,
+        endIndent: 20,
+      ),
       itemBuilder: (context, index) => _MenuTile(item: _menuItems[index]),
     );
   }
 
-  Widget _buildLogOut() {
+  Widget _buildLogOut(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (_) => const SplashScreen()),
+            (route) => false,
+          );
+        },
         child: Container(
           height: 54,
           decoration: BoxDecoration(

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'filter_sheet.dart';
+import 'screens/auth_flow.dart';
 import 'widgets/product_card.dart';
 
-void main() => runApp(const GroceryApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const GroceryApp());
+}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const Color kGreen = Color(0xFF2ECC71);
@@ -22,7 +26,8 @@ class GroceryApp extends StatelessWidget {
       colorScheme: ColorScheme.fromSeed(seedColor: kGreen),
       useMaterial3: true,
     ),
-    home: const MainShell(),
+    home: const SplashScreen(),
+    routes: {'/home': (context) => const MainShell()},
   );
 }
 
