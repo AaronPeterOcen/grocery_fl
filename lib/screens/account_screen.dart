@@ -7,8 +7,15 @@ const Color kDarkText = Color(0xFF2D3436);
 const Color kGrey = Color(0xFF636E72);
 const Color kLightGrey = Color(0xFFF5F5F5);
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  bool isSignedIn = true; // Assume signed in for demo
 
   static const _menuItems = [
     _MenuItem(Icons.shopping_bag_outlined, 'Orders'),
@@ -40,7 +47,7 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
             ),
-            _buildLogOut(context),
+            _buildAuthButton(context),
           ],
         ),
       ),
@@ -122,15 +129,24 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLogOut(BuildContext context) {
+  Widget _buildAuthButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => const SplashScreen()),
-            (route) => false,
-          );
+          if (isSignedIn) {
+            // Log out
+            setState(() => isSignedIn = false);
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const SplashScreen()),
+              (route) => false,
+            );
+          } else {
+            // Log in
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const SignInChoiceScreen()),
+            );
+          }
         },
         child: Container(
           height: 54,
@@ -140,12 +156,16 @@ class AccountScreen extends StatelessWidget {
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Icon(Icons.logout, color: kGreen, size: 20),
-              SizedBox(width: 10),
+            children: [
+              Icon(
+                isSignedIn ? Icons.logout : Icons.login,
+                color: kGreen,
+                size: 20,
+              ),
+              const SizedBox(width: 10),
               Text(
-                'Log Out',
-                style: TextStyle(
+                isSignedIn ? 'Log Out' : 'Log In',
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: kDarkText,

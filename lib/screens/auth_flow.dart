@@ -242,24 +242,44 @@ class SignInChoiceScreen extends StatelessWidget {
             ),
             const Spacer(),
             Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Column(
                 children: [
-                  const Text(
-                    'Already have an account? ',
-                    style: TextStyle(color: kAuthGrey),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Already have an account? ',
+                        style: TextStyle(color: kAuthGrey),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Log In',
+                          style: TextStyle(
+                            color: kAuthGreen,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  const SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
-                      );
+                      Navigator.of(context).pushReplacementNamed('/home');
                     },
                     child: const Text(
-                      'Log In',
+                      'Skip for now',
                       style: TextStyle(
-                        color: kAuthGreen,
-                        fontWeight: FontWeight.w600,
+                        color: kAuthGrey,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
@@ -279,13 +299,13 @@ class _AuthButton extends StatelessWidget {
   final String label;
   final Color color;
   final bool whiteText;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const _AuthButton({
     required this.icon,
     required this.label,
     required this.color,
-    required this.onTap,
+    this.onTap,
     this.whiteText = false,
   });
 
