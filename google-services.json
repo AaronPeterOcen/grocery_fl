@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482081450181",
+    "project_id": "fruity-app-2b86e",
+    "storage_bucket": "fruity-app-2b86e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482081450181:android:01569bc903abcf56f528ac",
+        "android_client_info": {
+          "package_name": "com.example.grocery_fl"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFVTQhMVrnbrczdmsDDjqa26AKo-p8iD8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
