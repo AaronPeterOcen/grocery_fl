@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'filter_sheet.dart';
 import 'screens/auth_flow.dart';
@@ -6,6 +7,8 @@ import 'widgets/product_card.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const GroceryApp());
 }
 
