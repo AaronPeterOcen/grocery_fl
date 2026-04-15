@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_service.dart';
 
 const Color kAuthGreen = Color(0xFF2ECC71);
 const Color kAuthDarkText = Color(0xFF2D3436);
@@ -170,6 +171,29 @@ class OnboardingScreen extends StatelessWidget {
 class SignInChoiceScreen extends StatelessWidget {
   const SignInChoiceScreen({super.key});
 
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    final authService = AuthService();
+    final userCredential = await authService.signInWithGoogle();
+
+    if (userCredential != null) {
+      // Sign-in successful, navigate to location screen
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LocationScreen()),
+        );
+      }
+    } else {
+      // Sign-in failed or cancelled
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Google sign-in failed. Please try again.'),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -207,11 +231,7 @@ class SignInChoiceScreen extends StatelessWidget {
               icon: Icons.g_mobiledata,
               label: 'Continue with Google',
               color: Colors.black,
-              onTap: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const LocationScreen()),
-                );
-              },
+              onTap: () => _signInWithGoogle(context),
             ),
             const SizedBox(height: 16),
             _AuthButton(
